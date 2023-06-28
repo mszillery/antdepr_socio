@@ -1,0 +1,150 @@
+------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes\pupha_desr_log.log
+  log type:  text
+ opened on:  15 Mar 2021, 11:08:26
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018 
+
+. /*Note: For 2012 - none of the yearly format seems to work
+>  from the webpage, should figure this out late */
+. 
+. 
+. foreach year of global years {
+  2.         
+.         import excel "${rfold}\pupha_raw\eves\pupha_`year'
+> .xlsx", firstrow case(lower) clear
+  3.         
+.         * Valtozo nevek standardizalasa a kulonbozo evekre
+.         
+.         gen t=`year'
+  4.         
+.         capture rename dot_forg_ dotforg
+  5.         capture rename brand_id brandid
+  6.         capture rename brandnev brand
+  7.         capture drop idoszak
+  8.         capture drop ev
+  9.         
+.         local vars "doboz" "dotforg" "tbtam" "fogyar" "ter
+> dij" "kvater"
+ 10.         foreach var of local vars {
+ 11.                 capture rename sumof`var' `var'
+ 12.         }
+ 13.         
+.         capture rename sumofdoboz doboz
+ 14.         capture rename sumof doboz
+ 15.         
+.         save E:\AntiDepr\pupha\temp\sales_c_y`year'.dta, r
+> eplace
+ 16. }
+(18 vars, 181,754 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2009.dta saved
+(18 vars, 178,006 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2010.dta saved
+(18 vars, 294,068 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2011.dta saved
+(17 vars, 181,696 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2013.dta saved
+(17 vars, 171,275 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2014.dta saved
+(18 vars, 168,751 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2015.dta saved
+(18 vars, 168,555 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2016.dta saved
+(18 vars, 167,837 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2017.dta saved
+(16 vars, 160,236 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2018.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. cd "$rfold\pupha\temp"
+E:\AntiDepr\pupha\temp
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. append using `: dir . files "*.dta"' /* appends all dta fi
+> les in cd */
+(note: variable hatoanyag was str65, now str69 to
+       accommodate using data's values)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. cd "${rfold}\pupha\temp"
+E:\AntiDepr\pupha\temp
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. keep if (strpos(atc, "N05") == 1 | strpos(atc, "N06") == 1
+> )
+(1,638,406 observations deleted)
+
+. 
+. save E:\AntiDepr\pupha\sales_c_y_N0506, replace
+file E:\AntiDepr\pupha\sales_c_y_N0506.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. gen atc4=substr(atc,1,4)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. keep if strpos(atc, "N05A") == 1 
+(123,436 observations deleted)
+
+. 
+. save E:\AntiDepr\pupha\sales_c_y_N05A, replace
+(note: file E:\AntiDepr\pupha\sales_c_y_N05A.dta not found)
+file E:\AntiDepr\pupha\sales_c_y_N05A.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. keep if strpos(atc, "N06A") == 1 
+(70,572 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. keep if strpos(atc, "N06A") == 1 
+(0 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD263c_000000.tmp"
+
+. keep if strpos(atc, "N06A") == 1 
+(0 observations deleted)
+
+. 
+end of do-file
+
+. exit, clear

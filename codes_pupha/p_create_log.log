@@ -1,0 +1,106 @@
+-------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes\p_create_log.log
+  log type:  text
+ opened on:  24 Mar 2021, 21:50:10
+
+. 
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018 2019
+
+. /*Note: none of the 2012 files from the webpage seemed to work for me, should figure this out */
+. 
+. 
+. foreach year of global years {
+  2.         
+.         import excel "${rfold}\pupha_raw\eves\pupha_`year'.xlsx", firstrow case(lower) clear
+  3.         
+.         * Valtozo nevek standardizalasa a kulonbozo evekre
+.         
+.         gen t=`year'
+  4.         
+.         capture rename dot_forg_ dotforg
+  5.         capture rename brand_id brandid
+  6.         capture rename brandnev brand
+  7.         *capture drop idoszak
+.         *capture drop ev
+.         
+.         local vars "doboz" "dotforg" "tbtam" "fogyar" "terdij" "kvater"
+  8.         foreach var of local vars {
+  9.                 capture rename sumof`var' `var'
+ 10.         }
+ 11.         
+.         capture rename sumofdoboz doboz /*not clear why this is needed, should be done by loop above*/
+ 12.         capture rename sumof doboz
+ 13.         
+.         save "${rfold}\pupha\temp\sales_c_y`year'.dta", replace
+ 14.         
+.         clear
+ 15. }
+(18 vars, 181,754 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2009.dta saved
+(18 vars, 178,006 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2010.dta saved
+(18 vars, 294,068 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2011.dta saved
+(17 vars, 181,696 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2013.dta saved
+(17 vars, 171,275 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2014.dta saved
+(18 vars, 168,751 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2015.dta saved
+(18 vars, 168,555 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2016.dta saved
+(18 vars, 167,837 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2017.dta saved
+(16 vars, 160,236 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2018.dta saved
+(18 vars, 165,622 obs)
+file E:\AntiDepr\pupha\temp\sales_c_y2019.dta saved
+
+. 
+. cd "${rfold}\pupha\temp"
+E:\AntiDepr\pupha\temp
+
+. 
+. append using `: dir . files "*.dta"' /* appends all dta files in cd */
+(note: variable kisznev was str113, now str116 to accommodate using data's values)
+(note: variable kisznev was str116, now str144 to accommodate using data's values)
+(note: variable brand was str49, now str54 to accommodate using data's values)
+(note: variable kisznev was str144, now str176 to accommodate using data's values)
+(note: variable nev was str117, now str200 to accommodate using data's values)
+(note: variable tk was str22, now str27 to accommodate using data's values)
+
+. 
+. 
+. keep if (strpos(atc, "N05") == 1 | strpos(atc, "N06") == 1)
+(1,643,721 observations deleted)
+
+. save "${rfold}\pupha\sales_c_y_N0506", replace
+file E:\AntiDepr\pupha\sales_c_y_N0506.dta saved
+
+. 
+. keep if strpos(atc, "N06A") == 1 
+(99,403 observations deleted)
+
+. save "${rfold}\pupha\sales_c_y_N06A", replace
+file E:\AntiDepr\pupha\sales_c_y_N06A.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD3ad4_000000.tmp"
+
+. foreach year of global years {
+  2.         
+.         erase "${rfold}\pupha\temp\sales_c_y`year'.dta"
+  3.         
+.         clear
+  4. }
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes\p_create_log.log
+  log type:  text
+ closed on:  24 Mar 2021, 22:00:48
+-------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,525 @@
+-------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes\pupha_desr_log.log
+  log type:  text
+ opened on:  12 Mar 2021, 11:27:48
+
+. cd "E:\AntiDepr"
+E:\AntiDepr
+
+. 
+end of do-file
+
+. import excel "E:\AntiDepr\pupha_raw\eves\pupha_2009.xlsx", 
+> sheet("MEGYEI_FORGALOM_2009") firstrow case(lower)
+(18 vars, 181,754 obs)
+
+. clear
+
+. import excel "E:\AntiDepr\pupha_raw\eves\pupha_2009.xlsx", firstrow case(lower)
+(18 vars, 181,754 obs)
+
+. capture confirm new variable ‘idoszak’
+
+. 
+. if _rc!=0 {
+. 
+. display "‘idoszak’ already exists"
+‘idoszak’ already exists
+. 
+. exit _rc
+no; dataset in memory has changed since last saved
+    Save the data or specify option clear to exit anyway.
+r(4);
+. 
+. }
+r(4);
+
+. capture confrim new variable 'idoszak'
+
+. _rc
+command _rc is unrecognized
+r(199);
+
+. display _rc
+199
+
+. capture confirm new variable boboka
+
+. display _rc
+0
+
+. capture confrim new variable idoszak
+
+. display _rc
+199
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. local varlist doboz dotforg tbtam fogyar terdij kvater
+
+. 
+. foreach var of local varlist {
+  2.         capture confirm new variable `var'
+  3.         if _rc==0 {
+  4.                 replace `var'=sumof`var'
+  5.                 }
+  6. }
+
+. 
+end of do-file
+
+. import excel "E:\AntiDepr\pupha_raw\eves\pupha_2011.xlsx", 
+> sheet("MEGYEI_FORGALOM_2011") firstrow case(lower) clear
+(18 vars, 294,068 obs)
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. local varlist doboz dotforg tbtam fogyar terdij kvater
+
+. 
+. foreach var of local varlist {
+  2.         capture confirm new variable `var'
+  3.         if _rc==0 {
+  4.                 replace `var'=sumof`var'
+  5.                 }
+  6. }
+variable doboz not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. local var "doboz dotforg tbtam fogyar terdij kvater"
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. local vars "doboz dotforg tbtam fogyar terdij kvater"
+
+. 
+end of do-file
+
+. drop var
+variable var not found
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach var of local vars {
+  2.         capture confirm new variable `var'
+  3.         if _rc==0 {
+  4.                 replace `var'=sumof`var'
+  5.                 }
+  6. }
+
+. 
+end of do-file
+
+. capture confrim new variable doboz
+
+. display doboz
+doboz not found
+r(111);
+
+. _rc
+command _rc is unrecognized
+r(199);
+
+. capture confrim new variable doboz
+
+. _rc
+command _rc is unrecognized
+r(199);
+
+. display _rc
+199
+
+. sum doboz
+variable doboz not found
+r(111);
+
+. capture confirm new variable doboz
+
+. _rc
+command _rc is unrecognized
+r(199);
+
+. display _rc
+0
+
+. drop doboz
+variable doboz not found
+r(111);
+
+. capture confirm new variable nev
+
+. display _rc
+110
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach var of local vars {
+  2.         capture confirm new variable `var'
+  3.         if _rc==0 {
+  4.                 gen `var'=sumof`var'
+  5.                 }
+  6. }
+
+. 
+end of do-file
+
+. capture confirm new variable doboz
+
+. display _rc
+0
+
+. display _rc==0
+1
+
+. gen doboz=sumofdoboz
+
+. display vars
+vars not found
+r(111);
+
+. vars
+command vars is unrecognized
+r(199);
+
+. drop doboz
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. local vars "doboz" "dotforg" "tbtam" "fogyar" "terdij" "kva
+> ter"
+
+. 
+. foreach var of local vars {
+  2.         capture confirm new variable `var'
+  3.         if _rc==0 {
+  4.                 gen `var'=sumof`var'
+  5.                 }
+  6. }
+(18,242 missing values generated)
+
+. 
+end of do-file
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018
+
+. 
+. foreach year of global years {
+  2.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", firstrow case(lower) clear
+  3. 
+.         local vars "doboz" "dotforg" "tbtam" "fogyar" "terd
+> ij" "kvater"
+  4. 
+.         foreach var of local vars {
+  5.                 capture confirm new variable `var'
+  6.                 if _rc==0 {
+  7.                         gen `var'=sumof`var'
+  8.                         }
+  9.         }
+ 10.         
+.         save "E:\AntiDepr\pupha\temp\sales_c_y""`year'"".dt
+> a", replace
+ 11. 
+. 
+. }
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. 
+. foreach year of global years {
+  2.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", firstrow case(lower) clear
+  3. 
+.         local vars "doboz" "dotforg" "tbtam" "fogyar" "terd
+> ij" "kvater"
+  4. 
+.         foreach var of local vars {
+  5.                 capture confirm new variable `var'
+  6.                 if _rc==0 {
+  7.                         gen `var'=sumof`var'
+  8.                         }
+  9.         }
+ 10.         
+.         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+ 11. 
+. 
+. }
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018
+
+. 
+. foreach year of global years {
+  2.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", firstrow case(lower) clear
+  3. 
+.         local vars "doboz" "dotforg" "tbtam" "fogyar" "terd
+> ij" "kvater"
+  4. 
+.         foreach var of local vars {
+  5.                 capture confirm new variable `var'
+  6.                 if _rc==0 {
+  7.                         gen `var'=sumof`var'
+  8.                         }
+  9.         }
+ 10.         
+.         *save using "E:\AntiDepr\pupha\temp\sales_c_y""`yea
+> r'"".dta", replace
+. 
+. }
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018
+
+. 
+. foreach year of global years {
+  2.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", firstrow case(lower) clear
+  3. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. global years 2009 2010 2011 2013 2014 2015 2016 2017 2018
+
+. 
+. foreach year of global years {
+  2.         
+.         display year
+  3.         
+.         *import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`
+> year'"".xlsx", firstrow case(lower) clear
+. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+year not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach year of global years {
+  2.         
+.         display `year'
+  3.         
+.         *import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`
+> year'"".xlsx", firstrow case(lower) clear
+. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+2009
+2010
+2011
+2013
+2014
+2015
+2016
+2017
+2018
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach year of global years {
+  2.         
+.         display `year'
+  3.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", firstrow case(lower) clear
+  4. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+2009
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach year of global years {
+  2.         
+.         display "E:\AntiDepr\pupha_raw\eves\pupha_""`year'"
+> ".xlsx"
+  3.         
+.         *import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`
+> year'"".xlsx", firstrow case(lower) clear
+. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+E:\AntiDepr\pupha_raw\eves\pupha_2009.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2010.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2011.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2013.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2014.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2015.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2016.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2017.xlsx
+E:\AntiDepr\pupha_raw\eves\pupha_2018.xlsx
+
+. 
+end of do-file
+
+. import excel "E:\AntiDepr\pupha_raw\eves\pupha_2009.xlsx", 
+> sheet("MEGYEI_FORGALOM_2009") firstrow case(lower)
+(18 vars, 181,754 obs)
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD51fc_000000.tmp"
+
+. foreach year of global years {
+  2.         
+.         
+.         import excel "E:\AntiDepr\pupha_raw\eves\pupha_""`y
+> ear'"".xlsx", sheet("MEGYEI_FORGALOM_""`year'")  firstrow c
+> ase(lower) clear
+  3. 
+.         /*local vars "doboz" "dotforg" "tbtam" "fogyar" "te
+> rdij" "kvater"
+> 
+>         foreach var of local vars {
+>                 capture confirm new variable `var'
+>                 if _rc==0 {
+>                         gen `var'=sumof`var'
+>                         }
+>         }
+>         
+>         save using "E:\AntiDepr\pupha\temp\sales_c_y""`year
+> '"".dta", replace
+>         */
+. 
+. }
+using required
+r(100);
+
+end of do-file
+
+r(100);
+
+. import excel "E:\AntiDepr\pupha_raw\eves\pupha_2009.xlsx", 
+> sheet("MEGYEI_FORGALOM_2009")  firstrow case(lower) clear

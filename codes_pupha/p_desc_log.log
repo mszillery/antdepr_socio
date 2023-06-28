@@ -1,0 +1,1117 @@
+---------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes_pupha\p_desc_log.log
+  log type:  text
+ opened on:  15 Mar 2022, 09:36:27
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. set scheme white_tableau
+
+. clear 
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. *replace hatoanyag2="other" if maxshare<0.05
+. replace hatoanyag2="other" if hatoanyag!="escitalopram" & hatoanyag!="duloxetin"
+(82,667 real changes made)
+
+. 
+. 
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+. scatter dot_nat_e06 t, by(hatoanyag2)
+
+. graph export "${rfold}\graphs\antid_dot_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend.pdf written in PDF format)
+
+. 
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = duloxetin escitalopram other)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       30   ->      10
+Number of variables                   6   ->      13
+j variable (3 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_duloxetin dot_e06_escitalopram dot_e06
+> _other
+                              avgpr_nat   ->   avgpr_natduloxetin avgpr_natescitalopram avgpr
+> _natother
+                             avgcop_nat   ->   avgcop_natduloxetin avgcop_natescitalopram avg
+> cop_natother
+                                 brands   ->   brandsduloxetin brandsescitalopram brandsother
+-----------------------------------------------------------------------------
+
+. 
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title(DOT by active ingr
+> idient) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear 
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. replace hatoanyag2="other" if maxshare<0.05
+(25,425 real changes made)
+
+. *replace hatoanyag2="other" if hatoanyag!="escitalopram" & hatoanyag!="duloxetin"
+. 
+. 
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+. scatter dot_nat_e06 t, by(hatoanyag2)
+
+. graph export "${rfold}\graphs\antid_dot_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend.pdf written in PDF format)
+
+. 
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = citalopram duloxetin escitalopram mirtazapin other paroxetin sertraline venlafaxin
+> )
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       80   ->      10
+Number of variables                   6   ->      33
+j variable (8 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_citalopram dot_e06_duloxetin ... dot_e
+> 06_venlafaxin
+                              avgpr_nat   ->   avgpr_natcitalopram avgpr_natduloxetin ... avg
+> pr_natvenlafaxin
+                             avgcop_nat   ->   avgcop_natcitalopram avgcop_natduloxetin ... a
+> vgcop_natvenlafaxin
+                                 brands   ->   brandscitalopram brandsduloxetin ... brandsven
+> lafaxin
+-----------------------------------------------------------------------------
+
+. 
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title(DOT by active ingr
+> idient) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price)
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)
+
+. 
+. grc1leg price cop brands, cols(3) title(Market outcomes by active ingridient)
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. *replace hatoanyag2="other" if maxshare<0.05
+. replace hatoanyag2="other" if hatoanyag!="escitalopram" & hatoanyag!="duloxetin"
+(82,667 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = duloxetin escitalopram other)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       30   ->      10
+Number of variables                   6   ->      13
+j variable (3 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_duloxetin dot_e06_escitalopram dot_e06
+> _other
+                              avgpr_nat   ->   avgpr_natduloxetin avgpr_natescitalopram avgpr
+> _natother
+                             avgcop_nat   ->   avgcop_natduloxetin avgcop_natescitalopram avg
+> cop_natother
+                                 brands   ->   brandsduloxetin brandsescitalopram brandsother
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price)
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)
+
+. 
+. grc1leg price cop brands, cols(3) title(Market outcomes by active ingridient)
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. grc1leg price cop brands, cols(3) title()
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price) legend(label(1 "Duloxetine") label
+> (2 "Escitalopram") label(3 "others") size(*1.5) cols(3))
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)  legend(label(1 "Duloxetine") l
+> abel(2 "Escitalopram") label(3 "others") size(*1.5) cols(3))
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)  legend(label(1 "Duloxetine") labe
+> l(2 "Escitalopram") label(3 "others") size(*1.5) cols(3))
+
+. 
+. grc1leg price cop brands, cols(3) title()
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. 
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price) legend(label(1 "Duloxetine") label
+> (2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)  legend(label(1 "Duloxetine") l
+> abel(2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)  legend(label(1 "Duloxetine") labe
+> l(2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. 
+. grc1leg price cop brands, cols(3) title()
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "E:\AntiDepr\codes_pupha\pupha_desr.do"
+
+. ** Mirjam Szillery
+. ** Generic Entry on the Antidepressant Market in Hungary
+. * Summary stats
+. 
+. global rfold "E:\AntiDepr"
+
+. log using "${rfold}\codes_pupha\p_desc_log.log", replace
+log file already open
+r(604);
+
+end of do-file
+
+r(604);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(1,392 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CIPRALEX CIPRALEX_MELTZ ESCIGEN ESCITALOPRAM_ACTAVIS ESCITALOPRAM_SANDOZ ESCITALOP
+> RAM_TEVA ESCITALOPRAM_ZENTIVA ESCITIL LANOCIPRAM SCIPPA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       65   ->      10
+Number of variables                   4   ->      21
+j variable (10 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CIPRALEX dot_CIPRALEX_MELTZ ... dot_SCIPPA
+                                 avgpr_   ->   avgpr_CIPRALEX avgpr_CIPRALEX_MELTZ ... avgpr_
+> SCIPPA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title("DOT of escitalopr
+> am drugs, by brand") stack
+
+. graph export "${rfold}\graphs\escitalopram_brands.pdf",replace
+(file E:\AntiDepr\graphs\escitalopram_brands.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. 
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="duloxetin"
+(90,502 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(406 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CYMBALTA DUCILTIA DULASOLAN DULODET DULOXETINE_MYLAN DULOXETINE_ZENTIVA DULOXETIN_
+> SANDOZ DULOXETIN_STADA DULOXETIN_TEVA DULOXGAMMA DULSEVIA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       51   ->      10
+Number of variables                   4   ->      23
+j variable (11 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CYMBALTA dot_DUCILTIA ... dot_DULSEVIA
+                                 avgpr_   ->   avgpr_CYMBALTA avgpr_DUCILTIA ... avgpr_DULSEV
+> IA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t) legend(off) ylabel(,labsize(tiny)) title("DOT of duloxetin d
+> rugs, by brand") stack
+
+. graph export "${rfold}\graphs\duloxetin_brands.pdf",replace
+(file E:\AntiDepr\graphs\duloxetin_brands.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear 
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. replace hatoanyag2="other" if maxshare<0.05
+(25,425 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+. scatter dot_nat_e06 t, by(hatoanyag2)
+
+. graph export "${rfold}\graphs\antid_dot_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend.pdf written in PDF format)
+
+. 
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = citalopram duloxetin escitalopram mirtazapin other paroxetin sertraline venlafaxin
+> )
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       80   ->      10
+Number of variables                   6   ->      33
+j variable (8 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_citalopram dot_e06_duloxetin ... dot_e
+> 06_venlafaxin
+                              avgpr_nat   ->   avgpr_natcitalopram avgpr_natduloxetin ... avg
+> pr_natvenlafaxin
+                             avgcop_nat   ->   avgcop_natcitalopram avgcop_natduloxetin ... a
+> vgcop_natvenlafaxin
+                                 brands   ->   brandscitalopram brandsduloxetin ... brandsven
+> lafaxin
+-----------------------------------------------------------------------------
+
+. 
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title(DOT by active ingr
+> idient) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. set scheme white_tableau
+
+. clear 
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. *replace hatoanyag2="other" if maxshare<0.05
+. replace hatoanyag2="other" if hatoanyag!="escitalopram" & hatoanyag!="duloxetin"
+(82,667 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = duloxetin escitalopram other)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       30   ->      10
+Number of variables                   6   ->      13
+j variable (3 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_duloxetin dot_e06_escitalopram dot_e06
+> _other
+                              avgpr_nat   ->   avgpr_natduloxetin avgpr_natescitalopram avgpr
+> _natother
+                             avgcop_nat   ->   avgcop_natduloxetin avgcop_natescitalopram avg
+> cop_natother
+                                 brands   ->   brandsduloxetin brandsescitalopram brandsother
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price) legend(label(1 "Duloxetine") label
+> (2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)  legend(label(1 "Duloxetine") l
+> abel(2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)  legend(label(1 "Duloxetine") labe
+> l(2 "Escitalopram") label(3 "Others") size(*1.5) cols(3))
+
+. 
+. grc1leg price cop brands, cols(3) title()
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph drop _all
+
+. line avgpr_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(Avg price) name(price) legend(label(1 "Duloxetine") label
+> (2 "Escitalopram") label(3 "Others") size(*1) cols(3))
+
+. line avgcop_* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015
+> ,lcolor(red) lpattern(dash)) title(Avg copayment) name(cop)  legend(label(1 "Duloxetine") l
+> abel(2 "Escitalopram") label(3 "Others") size(*1) cols(3))
+
+. 
+. line brands* t,  ylabel(,labsize(tiny)) xline(2014, lcolor(red) lpattern(dash)) xline(2015,
+> lcolor(red) lpattern(dash)) title(# brands) name(brands)  legend(label(1 "Duloxetine") labe
+> l(2 "Escitalopram") label(3 "Others") size(*1) cols(3))
+
+. 
+. grc1leg price cop brands, cols(3) title()
+
+. graph export "${rfold}\graphs\antid_pr_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_pr_trend.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear 
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. bysort t: egen dot_nat_all=total(dotforg)
+
+. bysort t hatoanyag: egen dot_nat0=total(dotforg)
+
+. gen dot_share=dot_nat0/dot_nat_all
+
+. bysort hatoanyag: egen maxshare=max(dot_share)
+
+. gen hatoanyag2=hatoanyag
+
+. replace hatoanyag2="other" if maxshare<0.05
+(25,425 real changes made)
+
+. *replace hatoanyag2="other" if hatoanyag!="escitalopram" & hatoanyag!="duloxetin"
+. 
+. 
+. collapse (sum) dot_nat=dotforg totprice_nat=fogyar cop=terdij, by(t hatoanyag2 brand)
+
+. gen one=1 
+
+. collapse (count) brands=one (sum) dot_nat totprice_nat cop, by(t hatoanyag2)
+
+. 
+. gen avgpr_nat=totprice_nat/dot_nat
+
+. gen avgcop_nat=cop/dot_nat
+
+. 
+. gen dot_nat_e06=dot_nat/1000000
+
+. gen avgpr_nat_e02=avgpr_nat/100
+
+. 
+. scatter dot_nat_e06 t, by(hatoanyag2)
+
+. graph export "${rfold}\graphs\antid_dot_trend.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend.pdf written in PDF format)
+
+. 
+. rename dot_nat_e06 dot_e06_
+
+. 
+. keep dot_e06 avgpr_nat t hatoanyag avgcop_nat brands
+
+. reshape wide dot_e06 avgpr_nat avgcop_nat brands, i(t) j(hatoanyag) string
+(note: j = citalopram duloxetin escitalopram mirtazapin other paroxetin sertraline venlafaxin
+> )
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       80   ->      10
+Number of variables                   6   ->      33
+j variable (8 values)        hatoanyag2   ->   (dropped)
+xij variables:
+                               dot_e06_   ->   dot_e06_citalopram dot_e06_duloxetin ... dot_e
+> 06_venlafaxin
+                              avgpr_nat   ->   avgpr_natcitalopram avgpr_natduloxetin ... avg
+> pr_natvenlafaxin
+                             avgcop_nat   ->   avgcop_natcitalopram avgcop_natduloxetin ... a
+> vgcop_natvenlafaxin
+                                 brands   ->   brandscitalopram brandsduloxetin ... brandsven
+> lafaxin
+-----------------------------------------------------------------------------
+
+. 
+. 
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) sta
+> ck
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other") label(6 "Paroxetine") label(7 "Sertraline") label(7 "Venlafaxin")) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+>  label(6 "Paroxetine") label(7 "Sertraline") label(7 "Venlafaxin") label(5 "Other")) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+>  label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafaxin") ) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafaxin")) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in")) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. 
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in") size(*1.5)) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) xlabel(,labsize(large)) title(DOT b
+> y active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in") size(*1.5)) stack
+xlabels(,labsize(large)) not allowed, xaxis1 does not exist
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) xlabel(,labsize(large)) title(DOT b
+> y active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in") size(*1.5)) stack
+xlabels(,labsize(large)) not allowed, xaxis1 does not exist
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. 
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title(DOT by active ingridient) ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in") size(*1.5)) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. graph bar (sum) dot_*, over(t)   ylabel(,labsize(tiny)) title() ///
+> legend(label(1 "Citalopram") label(2 "Duloxetin") label(3 "Escitalopram") label(4 "Mirtazap
+> in") ///
+> label(5 "Other (< 5% share)") label(6 "Paroxetine") label(7 "Sertraline") label(8 "Venlafax
+> in") size(*1.5)) stack
+
+. graph export "${rfold}\graphs\antid_dot_trend2.pdf",replace
+(file E:\AntiDepr\graphs\antid_dot_trend2.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(1,392 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CIPRALEX CIPRALEX_MELTZ ESCIGEN ESCITALOPRAM_ACTAVIS ESCITALOPRAM_SANDOZ ESCITALOP
+> RAM_TEVA ESCITALOPRAM_ZENTIVA ESCITIL LANOCIPRAM SCIPPA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       65   ->      10
+Number of variables                   4   ->      21
+j variable (10 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CIPRALEX dot_CIPRALEX_MELTZ ... dot_SCIPPA
+                                 avgpr_   ->   avgpr_CIPRALEX avgpr_CIPRALEX_MELTZ ... avgpr_
+> SCIPPA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title("Shares of escital
+> opram brands") stack
+
+. graph export "${rfold}\graphs\escitalopram_brands.pdf",replace
+(file E:\AntiDepr\graphs\escitalopram_brands.pdf written in PDF format)
+
+. 
+. ***************************************************************
+. 
+. * 3. Duloxetin - brands
+. 
+. 
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="duloxetin"
+(90,502 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(406 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CYMBALTA DUCILTIA DULASOLAN DULODET DULOXETINE_MYLAN DULOXETINE_ZENTIVA DULOXETIN_
+> SANDOZ DULOXETIN_STADA DULOXETIN_TEVA DULOXGAMMA DULSEVIA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       51   ->      10
+Number of variables                   4   ->      23
+j variable (11 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CYMBALTA dot_DUCILTIA ... dot_DULSEVIA
+                                 avgpr_   ->   avgpr_CYMBALTA avgpr_DUCILTIA ... avgpr_DULSEV
+> IA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t) legend(off) ylabel(,labsize(tiny)) title("Shares of duloxeti
+> n brands") stack
+
+. graph export "${rfold}\graphs\duloxetin_brands.pdf",replace
+(file E:\AntiDepr\graphs\duloxetin_brands.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD920_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(1,392 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CIPRALEX CIPRALEX_MELTZ ESCIGEN ESCITALOPRAM_ACTAVIS ESCITALOPRAM_SANDOZ ESCITALOP
+> RAM_TEVA ESCITALOPRAM_ZENTIVA ESCITIL LANOCIPRAM SCIPPA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       65   ->      10
+Number of variables                   4   ->      21
+j variable (10 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CIPRALEX dot_CIPRALEX_MELTZ ... dot_SCIPPA
+                                 avgpr_   ->   avgpr_CIPRALEX avgpr_CIPRALEX_MELTZ ... avgpr_
+> SCIPPA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t)  legend(off) ylabel(,labsize(tiny)) title("DOT of different 
+> escitalopram brands") stack
+
+. graph export "${rfold}\graphs\escitalopram_brands.pdf",replace
+(file E:\AntiDepr\graphs\escitalopram_brands.pdf written in PDF format)
+
+. 
+. ***************************************************************
+. 
+. * 3. Duloxetin - brands
+. 
+. 
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="duloxetin"
+(90,502 observations deleted)
+
+. 
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(406 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t brand_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(brand_) string
+(note: j = CYMBALTA DUCILTIA DULASOLAN DULODET DULOXETINE_MYLAN DULOXETINE_ZENTIVA DULOXETIN_
+> SANDOZ DULOXETIN_STADA DULOXETIN_TEVA DULOXGAMMA DULSEVIA)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                       51   ->      10
+Number of variables                   4   ->      23
+j variable (11 values)           brand_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_CYMBALTA dot_DUCILTIA ... dot_DULSEVIA
+                                 avgpr_   ->   avgpr_CYMBALTA avgpr_DUCILTIA ... avgpr_DULSEV
+> IA
+-----------------------------------------------------------------------------
+
+. 
+. graph bar (sum) dot_*, over(t) legend(off) ylabel(,labsize(tiny)) title("DOT of different d
+> uloxetin brands") stack
+
+. graph export "${rfold}\graphs\duloxetin_brands.pdf",replace
+(file E:\AntiDepr\graphs\duloxetin_brands.pdf written in PDF format)
+
+. 
+end of do-file
+
+. exit, clear
