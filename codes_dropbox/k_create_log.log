@@ -1,0 +1,497 @@
+file {rfold}/ksh_raw/ksh_6_1_2i_c_pop_age.xls not found
+r(601);
+
+. run "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+log file already open
+r(604);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. rename region megye
+
+. replace megye = substr(megye, 1, length(megye) - 1) if substr(megye, -1, 1) ==  "_"
+(8 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. import excel "E:\AntiDepr\ksh_raw\ksh_6_1_7i_c_lifeexp.xls", sheet("6.1.7.") firstrow case(lower)
+no; data in memory would be lost
+r(4);
+
+end of do-file
+
+r(4);
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. import excel "E:\AntiDepr\ksh_raw\ksh_6_1_7i_c_lifeexp.xls", sheet("6.1.7.") firstrow case(lower)
+(9 vars, 60 obs)
+
+. 
+. replace region= subinstr(region," ","_",.)
+(12 real changes made)
+
+. replace region= subinstr(region,"-","_",.)
+(30 real changes made)
+
+. replace region= subinstr(region,"á","a",.)
+(26 real changes made)
+
+. replace region= subinstr(region,"é","e",.)
+(18 real changes made)
+
+. replace region= subinstr(region,"É","E",.)
+(6 real changes made)
+
+. replace region= subinstr(region,"ó","o",.)
+(2 real changes made)
+
+. replace region= subinstr(region,"ö","o",.)
+(12 real changes made)
+
+. replace region= subinstr(region,"ő","o",.)
+(2 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. keep if rtipus=="megye"
+(24 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. rename region megye
+
+. replace megye = substr(megye, 1, length(megye) - 1) if substr(megye, -1, 1) ==  "_"
+(6 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. global rfold "E:\AntiDepr"
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. save "${rfold}\ksh\agele.dta", replace
+(note: file E:\AntiDepr\ksh\agele.dta not found)
+file E:\AntiDepr\ksh\agele.dta saved
+
+. 
+end of do-file
+
+. use "${rfold}\pupha\sales_c_y_N0506"
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 t megye using "${rfold}\ksh\agele.dta"
+variable t not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye using "${rfold}\ksh\pop.dta"
+variable _merge already defined
+r(110);
+
+end of do-file
+
+r(110);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 t megye using "${rfold}\ksh\agele.dta"
+variable t not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye using "${rfold}\ksh\agele.dta"
+variable _merge already defined
+r(110);
+
+end of do-file
+
+r(110);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. drop _merge
+
+. 
+. merge m:1 megye using "${rfold}\ksh\agele.dta"
+variable megye does not uniquely identify observations in the using data
+r(459);
+
+end of do-file
+
+r(459);
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. 
+end of do-file
+
+. drop pop0_14 pop15_64 pop65_ pop_all _merge
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. save "${rfold}\pupha\sales_c_y_N0506", replace
+file E:\AntiDepr\pupha\sales_c_y_N0506.dta saved
+
+. 
+. keep if strpos(atc, "N06A") == 1 
+(0 observations deleted)
+
+. save "${rfold}\pupha\sales_c_y_N06A", replace
+file E:\AntiDepr\pupha\sales_c_y_N06A.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. collapse (sum) dot_=dot totprice=fogyar (mean) pop_all, by(t megye)
+variable pop_all not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye using "${rfold}\ksh\pop.dta"
+variable megye does not uniquely identify observations in the using data
+r(459);
+
+end of do-file
+
+r(459);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye t using "${rfold}\ksh\pop.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           420
+        from master                         0  (_merge==1)
+        from using                        420  (_merge==2)
+
+    matched                               200  (_merge==3)
+    -----------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. drop if _merge==2
+(420 observations deleted)
+
+. drop _merge
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye using "${rfold}\ksh\agele.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            42
+        from master                        40  (_merge==1)
+        from using                          2  (_merge==2)
+
+    matched                               160  (_merge==3)
+    -----------------------------------------
+
+. 
+end of do-file
+
+. clear
+
+. use "${rfold}\ksh\agele.dta"
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. replace megye= subinstr(megye,"ú","u",.)
+(2 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. save "${rfold}\ksh\agele.dta", replace
+file E:\AntiDepr\ksh\agele.dta saved
+
+. 
+end of do-file
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye t using "${rfold}\ksh\pop.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           420
+        from master                         0  (_merge==1)
+        from using                        420  (_merge==2)
+
+    matched                               200  (_merge==3)
+    -----------------------------------------
+
+. drop if _merge==2
+(420 observations deleted)
+
+. drop _merge
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. merge m:1 megye using "${rfold}\ksh\agele.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                            20
+        from master                        20  (_merge==1)
+        from using                          0  (_merge==2)
+
+    matched                               180  (_merge==3)
+    -----------------------------------------
+
+. 
+end of do-file
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. import excel "E:\AntiDepr\ksh_raw\ksh_6_1_7i_c_lifeexp.xls", sheet("6.1.7.") firstrow case(lower)
+(14 vars, 60 obs)
+
+. 
+. replace region= subinstr(region," ","_",.)
+(6 real changes made)
+
+. replace region= subinstr(region,"-","_",.)
+(15 real changes made)
+
+. replace region= subinstr(region,"á","a",.)
+(13 real changes made)
+
+. replace region= subinstr(region,"é","e",.)
+(9 real changes made)
+
+. replace region= subinstr(region,"É","E",.)
+(3 real changes made)
+
+. replace region= subinstr(region,"ó","o",.)
+(1 real change made)
+
+. replace region= subinstr(region,"ö","o",.)
+(6 real changes made)
+
+. replace region= subinstr(region,"ő","o",.)
+(1 real change made)
+
+. replace megye= subinstr(megye,"ú","u",.)
+variable megye not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. replace region= subinstr(region,"ú","u",.)
+(6 real changes made)
+
+. 
+. rename region megye
+
+. replace megye = substr(megye, 1, length(megye) - 1) if substr(megye, -1, 1) ==  "_"
+(4 real changes made)
+
+. 
+. save "${rfold}\ksh\agele.dta", replace
+file E:\AntiDepr\ksh\agele.dta saved
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye)
+
+. 
+. 
+. * Add KSH-population data
+. 
+. merge m:1 megye t using "${rfold}\ksh\pop.dta"
+
+    Result                           # of obs.
+    -----------------------------------------
+    not matched                           420
+        from master                         0  (_merge==1)
+        from using                        420  (_merge==2)
+
+    matched                               200  (_merge==3)
+    -----------------------------------------
+
+. drop if _merge==2
+(420 observations deleted)
+
+. drop _merge
+
+. 
+. merge m:1 megye using "${rfold}\ksh\agele.dta"
+variable megye does not uniquely identify observations in the using data
+r(459);
+
+end of do-file
+
+r(459);
+
+. clear
+
+. use "${rfold}\ksh\agele.dta"
+
+. clear
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. import excel "E:\AntiDepr\ksh_raw\ksh_6_1_7i_c_lifeexp.xls", sheet("6.1.7.") firstrow case(lower)
+(14 vars, 43 obs)
+
+. 
+end of do-file
+
+. clear
+
+. import excel "E:\AntiDepr\ksh_raw\ksh_6_1_7i_c_lifeexp.xls", sheet("6.1.7.") cellrange(A1:N31) firstrow cas
+> e(lower)
+(14 vars, 30 obs)
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. replace region= subinstr(region," ","_",.)
+(6 real changes made)
+
+. replace region= subinstr(region,"-","_",.)
+(15 real changes made)
+
+. replace region= subinstr(region,"á","a",.)
+(13 real changes made)
+
+. replace region= subinstr(region,"é","e",.)
+(9 real changes made)
+
+. replace region= subinstr(region,"É","E",.)
+(3 real changes made)
+
+. replace region= subinstr(region,"ó","o",.)
+(1 real change made)
+
+. replace region= subinstr(region,"ö","o",.)
+(6 real changes made)
+
+. replace region= subinstr(region,"ő","o",.)
+(1 real change made)
+
+. replace region= subinstr(region,"ú","u",.)
+(6 real changes made)
+
+. 
+. rename region megye
+
+. replace megye = substr(megye, 1, length(megye) - 1) if substr(megye, -1, 1) ==  "_"
+(4 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD2388_000000.tmp"
+
+. save "${rfold}\ksh\agele.dta", replace
+file E:\AntiDepr\ksh\agele.dta saved
+
+. 
+end of do-file
+
+. exit, clear

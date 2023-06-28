@@ -1,0 +1,958 @@
+-------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\AntiDepr\codes\p_desc_log.log
+  log type:  text
+ opened on:  24 Mar 2021, 20:23:00
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen brand_= subinstr(brand," ","_",.)
+
+. replace brand_= subinstr(brand_,"-","_",.)
+(1,392 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye brand_)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen avgpr_=totprice/dot_
+(1 missing value generated)
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_ megye, i(t) j(brand_) string
+(note: j = CIPRALEX CIPRALEX_MELTZ ESCIGEN ESCITALOPRAM_ACTAVIS ESCITALOPRAM_SANDOZ ESCITALOPRAM_TEVA ESCITAL
+> OPRAM_ZENTIVA ESCITIL LANOCIPRAM SCIPPA)
+values of variable brand_ not unique within t
+    Your data are currently long.  You are performing a reshape wide.  You specified i(t) and j(brand_).
+    There are observations within i(t) with the same value of j(brand_).  In the long data, variables i()
+    and j() together must uniquely identify the observations.
+
+         long                                wide
+        +---------------+                   +------------------+
+        | i   j   a   b |                   | i   a1 a2  b1 b2 |
+        |---------------| <--- reshape ---> |------------------|
+        | 1   1   1   2 |                   | 1   1   3   2  4 |
+        | 1   2   3   4 |                   | 2   5   7   6  8 |
+        | 2   1   5   6 |                   +------------------+
+        | 2   2   7   8 |
+        +---------------+
+    Type reshape error for a list of the problem variables.
+r(9);
+
+end of do-file
+
+r(9);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_ megye, i(t) j(megye) string
+(note: j = Baranya Borsod-Abaúj-Zemplén Budapest Bács-Kiskun Békés Csongrád Fejér Győr-Moson-Sopron Hajdú-Bih
+> ar Heves Jász-Nagykun-Szolnok Komárom-Esztergom Nógrád Pest Somogy Szabolcs-Szatmár-Bereg Tolna Vas Veszpré
+> m Zala)
+variable megye not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_ megye, i(t) j(megye) string
+(note: j = Baranya Borsod-Abaúj-Zemplén Budapest Bács-Kiskun Békés Csongrád Fejér Győr-Moson-Sopron Hajdú-Bih
+> ar Heves Jász-Nagykun-Szolnok Komárom-Esztergom Nógrád Pest Somogy Szabolcs-Szatmár-Bereg Tolna Vas Veszpré
+> m Zala)
+variable megye not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_ megye, i(t) j(megye_) string
+(note: j = Bacs_Kiskun Baranya Bekes Borsod_Abauj_Zemplen Budapest Csongrad Fejer Gyor_Moson_Sopron Hajdu_Bih
+> ar Heves Jasz_Nagykun_Szolnok Komarom_Esztergom Nograd Pest Somogy Szabolcs_Szatmar_Bereg Tolna Vas Veszpre
+> m Zala)
+variable megye_ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. 
+. replace megye_=substr(megye_,1,6)
+(4,384 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. reshape wide dot_ avgpr_ megye, i(t) j(megye_) string
+(note: j = Bacs_K Barany Bekes Borsod Budape Csongr Fejer Gyor_M Hajdu_ Heves Jasz_N Komaro Nograd Pest Somog
+> y Szabol Tolna Vas Veszpr Zala)
+variable megye_ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. 
+. reshape wide dot_ avgpr_, i(t) j(megye_) string
+(note: j = Bacs_K Barany Bekes Borsod Budape Csongr Fejer Gyor_M Hajdu_ Heves Jasz_N Komaro Nograd Pest Somog
+> y Szabol Tolna Vas Veszpr Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   4   ->      41
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_K dot_Barany ... dot_Zala
+                                 avgpr_   ->   avgpr_Bacs_K avgpr_Barany ... avgpr_Zala
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. graph bar (sum) dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_H
+> ajdu_ dot_Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszp
+> r dot_Zala, over(t)  legend(size(tiny)) ylabel(,labsize(tiny)) stack
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. scatter t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_Hajdu_ 
+> dot_Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszpr dot_
+> Zala, over(t)  legend(size(tiny)) ylabel(,labsize(tiny)) 
+option over() not allowed
+r(198);
+
+end of do-file
+
+r(198);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. scatter t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_Hajdu_ 
+> dot_Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszpr dot_
+> Zala, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. 
+. graph line t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_Hajd
+> u_ dot_Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszpr d
+> ot_Zala, legend(size(tiny)) ylabel(,labsize(tiny)) 
+linegraph_g.new t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M
+    dot_Hajdu_ dot_Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas
+    dot_Veszpr dot_Zala, legend(size(tiny)) ylabel(,labsize(tiny)): class member function not found
+r(4023);
+
+end of do-file
+
+r(4023);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. line t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_Hajdu_ dot
+> _Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszpr dot_Zal
+> a, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. xtset t megye
+variable megye not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. xtset t megye_
+variable megye_ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. 
+. replace megye_=substr(megye_,1,6)
+(4,384 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. xtset t megye_
+string variables not allowed in varlist;
+megye_ is a string variable
+r(109);
+
+end of do-file
+
+r(109);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. encode megye, gen(megye1)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. xtset t megye1
+       panel variable:  t (strongly balanced)
+        time variable:  megye1, 1 to 20
+                delta:  1 unit
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen dot_pr_=D.dot_/dot_
+(10 missing values generated)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. reshape wide dot_ dot_pr_ avgpr_, i(t) j(megye_) string
+(note: j = Bacs_K Barany Bekes Borsod Budape Csongr Fejer Gyor_M Hajdu_ Heves Jasz_N Komaro Nograd Pest Somog
+> y Szabol Tolna Vas Veszpr Zala)
+variable megye1 not constant within t
+    Your data are currently long.  You are performing a reshape wide.  You typed something like
+
+        . reshape wide a b, i(t) j(megye_)
+
+    There are variables other than a, b, t, megye_ in your data.  They must be constant within t because
+    that is the only way they can fit into wide data without loss of information.
+
+    The variable or variables listed above are not constant within t.  Perhaps the values are in error.
+    Type reshape error for a list of the problem observations.
+
+    Either that, or the values vary because they should vary, in which case you must either add the
+    variables to the list of xij variables to be reshaped, or drop them.
+r(9);
+
+end of do-file
+
+r(9);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. reshape wide dot_ dot_pr_ avgpr_ megye1, i(t) j(megye_) string
+(note: j = Bacs_K Barany Bekes Borsod Budape Csongr Fejer Gyor_M Hajdu_ Heves Jasz_N Komaro Nograd Pest Somog
+> y Szabol Tolna Vas Veszpr Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   6   ->      81
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_K dot_Barany ... dot_Zala
+                                dot_pr_   ->   dot_pr_Bacs_K dot_pr_Barany ... dot_pr_Zala
+                                 avgpr_   ->   avgpr_Bacs_K avgpr_Barany ... avgpr_Zala
+                                 megye1   ->   megye1Bacs_K megye1Barany ... megye1Zala
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. 
+. encode megye, gen(megye_)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. drop megye_
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. encode megye, gen(megye1)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. xtset t megye1
+       panel variable:  t (strongly balanced)
+        time variable:  megye1, 1 to 20
+                delta:  1 unit
+
+. gen dot_pr_=D.dot_/dot_
+(10 missing values generated)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. drop megye1
+
+. 
+. reshape wide dot_ dot_pr_ avgpr_ megye1, i(t) j(megye_) string
+variable megye1 not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. 
+. reshape wide dot_ dot_pr_ avgpr_ , i(t) j(megye_) string
+(note: j = Bacs_Kiskun Baranya Bekes Borsod_Abauj_Zemplen Budapest Csongrad Fejer Gyor_Moson_Sopron Hajdu_Bih
+> ar Heves Jasz_Nagykun_Szolnok Komarom_Esztergom Nograd Pest Somogy Szabolcs_Szatmar_Bereg Tolna Vas Veszpre
+> m Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   5   ->      61
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_Kiskun dot_Baranya ... dot_Zala
+                                dot_pr_   ->   dot_pr_Bacs_Kiskun dot_pr_Baranya ... dot_pr_Zala
+                                 avgpr_   ->   avgpr_Bacs_Kiskun avgpr_Baranya ... avgpr_Zala
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. line t dot_Bacs_K dot_Barany dot_Bekes dot_Borsod dot_Budape dot_Csongr dot_Fejer dot_Gyor_M dot_Hajdu_ dot
+> _Heves dot_Jasz_N dot_Komaro dot_Nograd dot_Pest dot_Somogy dot_Szabol dot_Tolna dot_Vas dot_Veszpr dot_Zal
+> a, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. graph export "${rfold}\graphs\escitalopram_counties.pdf",replace
+(file E:\AntiDepr\graphs\escitalopram_counties.pdf written in PDF format)
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. line t dot_pr_*, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. sum dot_pr*
+
+    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+dot_pr_Bac~n |          0
+dot_pr_Bar~a |         10   -.6358945    .1399558  -.9467117  -.5039434
+dot_pr_Bekes |         10     .361796    .1032277   .2071894   .5723969
+dot_pr_Bor~n |         10   -.0334415     .146974  -.3738855   .1041879
+dot_pr_Bud~t |         10    .7574917    .0207887   .7332999   .7955562
+-------------+---------------------------------------------------------
+dot_pr_Cso~d |         10   -2.475169    .2378611   -2.82034  -2.231351
+dot_pr_Fejer |         10   -.8180762    .2659639  -1.385494  -.5915985
+dot_pr_Gyo~n |         10    .4138409    .0400988   .3714563   .4857749
+dot_pr_Haj~r |         10   -.2775529    .1204995  -.5448546  -.1332776
+dot_pr_Heves |         10    -.465647    .0759541  -.6182753  -.3866791
+-------------+---------------------------------------------------------
+dot_pr_Jas~k |         10   -.0810949    .0628516  -.1706922   .0542462
+dot_pr_Kom~m |         10    .2793028    .1477289   .1093642   .4914967
+dot_pr_Nog~d |         10   -1.654841     1.09632  -3.947046   -.585246
+ dot_pr_Pest |         10    .8376908    .0296318   .8153211   .9084086
+dot_pr_Som~y |         10   -3.829446    .2540219  -4.031884  -3.314407
+-------------+---------------------------------------------------------
+dot_pr_Sza~g |         10    .5000229    .0668179   .3792943   .5682712
+dot_pr_Tolna |         10   -1.216798    .4032714  -2.179377  -.9372858
+  dot_pr_Vas |         10    .1295702    .1353458   .0248258   .3831013
+dot_pr_Ves~m |         10    .1053346    .0674307  -.0082473   .1923226
+ dot_pr_Zala |         10   -.1006468    .1710908  -.4082107   .1239785
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. line dot_pr_* t, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. encode megye, gen(megye1)
+
+. 
+. xtset megye1 t
+       panel variable:  megye1 (strongly balanced)
+        time variable:  t, 2009 to 2019, but with gaps
+                delta:  1 unit
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. gen dot_pr_=D.dot_/dot_
+(40 missing values generated)
+
+. 
+. drop megye1
+
+. 
+. reshape wide dot_ dot_pr_ avgpr_ , i(t) j(megye_) string
+(note: j = Bacs_Kiskun Baranya Bekes Borsod_Abauj_Zemplen Budapest Csongrad Fejer Gyor_Moson_Sopron Hajdu_Bih
+> ar Heves Jasz_Nagykun_Szolnok Komarom_Esztergom Nograd Pest Somogy Szabolcs_Szatmar_Bereg Tolna Vas Veszpre
+> m Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   5   ->      61
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_Kiskun dot_Baranya ... dot_Zala
+                                dot_pr_   ->   dot_pr_Bacs_Kiskun dot_pr_Baranya ... dot_pr_Zala
+                                 avgpr_   ->   avgpr_Bacs_Kiskun avgpr_Baranya ... avgpr_Zala
+-----------------------------------------------------------------------------
+
+. 
+. line dot_pr_* t, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. bysort megye_ (t): gen dot_pr=100*(dot[_n]-dot[_n-1])/dot_[_1]
+variable megye_ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. bysort megye_ (t): gen dot_pr=100*(dot[_n]-dot[_n-1])/dot_[_1]
+_1 not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. drop totprice
+variable totprice not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. bysort megye_ (t): gen dot_pr=100*(dot[_n]-dot[1])/dot_[1]
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. reshape wide dot_ dot_pr_ avgpr_ , i(t) j(megye_) string
+variable dot_pr_ not found
+r(111);
+
+end of do-file
+
+r(111);
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. bysort megye_ (t): gen dot_pr_=100*(dot[_n]-dot[1])/dot_[1]
+dot ambiguous abbreviation
+r(111);
+
+end of do-file
+
+r(111);
+
+. drop dot_pr
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. bysort megye_ (t): gen dot_pr_=100*(dot[_n]-dot[1])/dot_[1]
+
+. 
+. reshape wide dot_ dot_pr_ avgpr_ , i(t) j(megye_) string
+(note: j = Bacs_Kiskun Baranya Bekes Borsod_Abauj_Zemplen Budapest Csongrad Fejer Gyor_Moson_Sopron Hajdu_Bih
+> ar Heves Jasz_Nagykun_Szolnok Komarom_Esztergom Nograd Pest Somogy Szabolcs_Szatmar_Bereg Tolna Vas Veszpre
+> m Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   5   ->      61
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_Kiskun dot_Baranya ... dot_Zala
+                                dot_pr_   ->   dot_pr_Bacs_Kiskun dot_pr_Baranya ... dot_pr_Zala
+                                 avgpr_   ->   avgpr_Bacs_Kiskun avgpr_Baranya ... avgpr_Zala
+-----------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. 
+. line dot_pr_* t, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. clear
+
+. 
+. use "${rfold}\pupha\sales_c_y_N06A"
+
+. 
+. keep if hatoanyag=="escitalopram"
+(86,841 observations deleted)
+
+. 
+. gen megye_= subinstr(megye," ","_",.)
+
+. replace megye_= subinstr(megye_,"-","_",.)
+(2,818 real changes made)
+
+. replace megye_= subinstr(megye_,"á","a",.)
+(2,367 real changes made)
+
+. replace megye_= subinstr(megye_,"é","e",.)
+(1,531 real changes made)
+
+. replace megye_= subinstr(megye_,"ó","o",.)
+(379 real changes made)
+
+. replace megye_= subinstr(megye_,"ő","o",.)
+(391 real changes made)
+
+. replace megye_= subinstr(megye_,"ú","u",.)
+(829 real changes made)
+
+. 
+. collapse (sum) dot_=dot totprice=fogyar, by(t megye_)
+
+. gen avgpr_=totprice/dot_
+
+. drop totprice
+
+. 
+. bysort megye_ (t): gen dot_pr_=100*(dot[_n])/dot_[1]
+
+. 
+. reshape wide dot_ dot_pr_ avgpr_ , i(t) j(megye_) string
+(note: j = Bacs_Kiskun Baranya Bekes Borsod_Abauj_Zemplen Budapest Csongrad Fejer Gyor_Moson_Sopron Hajdu_Bih
+> ar Heves Jasz_Nagykun_Szolnok Komarom_Esztergom Nograd Pest Somogy Szabolcs_Szatmar_Bereg Tolna Vas Veszpre
+> m Zala)
+
+Data                               long   ->   wide
+-----------------------------------------------------------------------------
+Number of obs.                      200   ->      10
+Number of variables                   5   ->      61
+j variable (20 values)           megye_   ->   (dropped)
+xij variables:
+                                   dot_   ->   dot_Bacs_Kiskun dot_Baranya ... dot_Zala
+                                dot_pr_   ->   dot_pr_Bacs_Kiskun dot_pr_Baranya ... dot_pr_Zala
+                                 avgpr_   ->   avgpr_Bacs_Kiskun avgpr_Baranya ... avgpr_Zala
+-----------------------------------------------------------------------------
+
+. 
+. line dot_pr_* t, legend(size(tiny)) ylabel(,labsize(tiny)) 
+
+. 
+end of do-file
+
+. do "C:\Users\Mirjam\AppData\Local\Temp\STD5d04_000000.tmp"
+
+. graph export "${rfold}\graphs\escitalopram_counties.pdf",replace
+(file E:\AntiDepr\graphs\escitalopram_counties.pdf written in PDF format)
+
+. 
+end of do-file
+
+. exit, clear
